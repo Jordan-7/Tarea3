@@ -50,7 +50,7 @@ Debe escribir cuatro bloques de código en R que consulten el conjunto de datos 
 
 ### Consulta 1
 
-Tabla que para los mujeres mayores de 70 años, diabéticos y no anémicos muestre, en orden descendente de edad, las columnas correspondientes a:
+Tabla que para las mujeres mayores de 75 años muestre, en orden descendente de edad, las columnas correspondientes a:
 
 -   Sexo
 
@@ -58,9 +58,9 @@ Tabla que para los mujeres mayores de 70 años, diabéticos y no anémicos muest
 
 -   Diabetes
 
--   Anemia
-
 -   Presión arterial alta
+
+-   Creatinina sérica
 
 ```{r}
 #|label: cuadro1
