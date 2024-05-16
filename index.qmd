@@ -1,0 +1,124 @@
+---
+title: "tarea3"
+format: html
+editor: visual
+---
+
+## Introducción
+
+Las enfermedades cardiovasculares son una causa importante de muerte a nivel mundial, provocando cerca de 17 millones de fallecimientos cada año. Los problemas cardíacos más comunes son los infartos de miocardio y los fallos cardíacos, este último se produce cuando el corazón no puede bombear suficiente sangre para cubrir las necesidades del cuerpo. Los registros médicos electrónicos de los pacientes contienen información valiosa sobre síntomas, características físicas y resultados de pruebas de laboratorio, que pueden ser analizados mediante biostadística para encontrar patrones y correlaciones útiles que los médicos podrían no detectar fácilmente. El uso de técnicas de aprendizaje automático permite predecir la supervivencia de los pacientes a partir de estos datos y destacar las características más relevantes en sus registros médicos.
+
+## Carga de paquetes
+
+Para cargar los paquetes es necesario realizar la instalacion de los paquetes que se vayan a necesitar en dado caso que no se haya realizado anteriormente.
+
+```{r}
+#| Label: Carga-paquetes
+#| message: false
+#| warning: false
+
+# Carga conjunta de Tidyverse
+library(tidyverse)
+
+# Carga individual
+library(dplyr)
+
+# Carga de readr, paquete para lectura de datos
+library(readr)
+
+# Carga de knitr, paquete para integrar salidas en R en documentos dinámicos
+# (ej. Quarto). En este capítulo se usa para generar tablas.
+library(knitr)
+```
+
+## Carga de datos
+
+Para este trabajo es necesario realizar la descarga y la carga del documento CSV denominado "El conjunto de datos de registros clínicos de insuficiencia cardíaca".
+
+[Documento de csv](https://github.com/gf0604-procesamientodatosgeograficos/2024-i/blob/main/datos/bmc/heart_failure_clinical_records_dataset.csv)
+
+```{r}
+#| Label: Carga-datos
+
+datos_clinica <- read.csv("heart_failure_clinical_records_dataset.csv")
+
+```
+
+## Consultas
+
+Debe escribir cuatro bloques de código en R que consulten el conjunto de datos y presenten los resultados en tablas. Los bloques de código en R deben utilizar funciones del paquete dplyr de Tidyverse (select(), filter(), mutate(), arrange(), group_by(), summarize() y otras). Las tablas deben generarse mediante la función kable() del paquete knitr.
+
+### Consulta 1
+
+Tabla que para los mujeres mayores de 70 años, diabéticos y no anémicos muestre, en orden descendente de edad, las columnas correspondientes a:
+
+-   Sexo
+
+-   Edad
+
+-   Diabetes
+
+-   Anemia
+
+-   Presión arterial alta
+
+```{r}
+#|label: cuadro1
+
+datos_clinica |>
+      filter(sex == 0 & age >= 75) |>
+      select(sex, age, diabetes, serum_creatinine, high_blood_pressure) |>
+      arrange(age) |>
+      kable()
+```
+
+### Consulta 2
+
+Tabla que muestre para todas los hombres con fracción de eyección entre 20 (inclusive) y 25 (inclusive), en orden ascendente de fracción de eyección, las columnas correspondientes a:
+
+-   Sexo
+-   Fracción de eyección
+-   Anemia
+-   Diabetes
+
+```{r}
+#|label: cuadro2
+
+datos_clinica |>
+  filter(sex == 1) |>
+  filter(ejection_fraction >= 20 & ejection_fraction <= 25)|>
+  select(sex, age, diabetes, smoking, ejection_fraction) |>
+  arrange(ejection_fraction)|>
+  kable()
+```
+
+### Consulta 3
+
+Tabla que muestre el promedio de fracción de eyección de los pacientes diabéticos y de los pacientes no diabéticos.
+
+```{r}
+#|label: cuadro3
+
+datos_clinica |>
+  group_by(diabetes) |>
+  summarize(mean_ejection_fraction = mean(ejection_fraction)) |>
+  kable()
+
+```
+
+### Consulta 4
+
+Tabla que muestre la menor edad de los hombres fallecidos.
+
+```{r}
+#|label: cuadro5
+
+datos_clinica |>
+      filter(sex == 1) |>
+      summarise(age = min(age, na.rm = TRUE)) |>
+      kable()
+```
+
+#### Trabajo realizado por:
+
+Jordan Monge Obando. C04958 Jeriel Castrillo. C31829
